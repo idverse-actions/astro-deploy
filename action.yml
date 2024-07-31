@@ -55,18 +55,6 @@ runs:
             exit 1
         fi
         echo "VERSION=$VERSION" >> $GITHUB_ENV
-    - name: Setup PNPM
-      if: ${{ env.PACKAGE_MANAGER == 'pnpm' }}
-      uses: pnpm/action-setup@v3
-      with:
-        version: ${{ env.VERSION }}
-        package_json_file: "${{ inputs.path }}/package.json"
-    
-    - name: Setup Bun
-      if: ${{ env.PACKAGE_MANAGER == 'bun' }}
-      uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: ${{ env.VERSION }}
 
     - name: Setup Node
       uses: actions/setup-node@v4
@@ -75,7 +63,7 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: ${{ env.PACKAGE_MANAGER }}
         cache-dependency-path: "${{ inputs.path }}/${{ env.LOCKFILE }}"
-    
+
     - name: Setup Node (Bun)
       uses: actions/setup-node@v4
       if: ${{ env.PACKAGE_MANAGER == 'bun' }}
